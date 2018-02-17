@@ -1,0 +1,56 @@
+#==================================================
+# 1. SET-UP
+# Calls the required externals (numpy etc)
+#==================================================
+
+#==================================================
+# 2. CONSTANTS MODULE
+# Declares all the constants and sates units
+# 2.1 Add variables here as well?
+#=================================================
+
+#==================================================
+# 3. STAR GENERATOR
+# Creates and object "star" with a mass and
+# metallicity obtained from distribution function
+# 3.1 add options for more than 1 star?
+#==================================================
+
+#==================================================
+# 4. STELLAR PROPERTIES
+# Uses the values from 3. to calculate the rest of
+# the star's properties (radius, temp, MS lifetime,
+# stellar type, etc)
+#==================================================
+
+#==================================================
+# 5. PLANET MULTIPLICITY
+# Determines the number of planets (Nplan) orbiting
+# the seed star
+# 5.1 as almost all work is biased towards planets
+# with short periods, add a random factor to
+# include planets with periods outside the scope of
+# those in research
+#==================================================
+
+#==================================================
+# 6/7. PLANET PARAMETERS
+# For each planet, uses probability functions to 
+# determine masses and radii. From there can
+# compute density
+#==================================================
+
+#==================================================
+# 6/7. ORBIT PARAMETERS
+# For each planet, uses probability functions to
+# attribute them with their orbital characteristics
+# (eccentricity, semi-major axis/period, 
+# inclination)
+#==================================================
+
+#==================================================
+# 9. STABILITY TEST
+# Tests the stability of the generated system.
+# Should be stable for approx. MS lifetime of host
+# star.
+#==================================================
