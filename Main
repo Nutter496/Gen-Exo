@@ -3,11 +3,22 @@
 # Calls the required externals (numpy etc)
 #==================================================
 
+
+
 #==================================================
 # 2. CONSTANTS MODULE
-# Declares all the constants and sates units
+# Declares/calls all the constants and sates units
 # 2.1 Add variables here as well?
 #=================================================
+# Msun = 1.98850000d+30			#[kg]
+# Rsun = 6.95700000d+08			#[m]
+# Me   = 5.97240000d+24			#[kg]
+# Re   = 6.37100000d+06			#[m]
+# Day  = 8640000000d+00			#[s]
+# AU   = 1495978707d+00			#[m]
+#=================================================
+
+
 
 #==================================================
 # 3. STAR GENERATOR
@@ -16,12 +27,16 @@
 # 3.1 add options for more than 1 star?
 #==================================================
 
+
+
 #==================================================
 # 4. STELLAR PROPERTIES
 # Uses the values from 3. to calculate the rest of
 # the star's properties (radius, temp, MS lifetime,
 # stellar type, etc)
 #==================================================
+
+
 
 #==================================================
 # 5. PLANET MULTIPLICITY
@@ -33,12 +48,16 @@
 # those in research
 #==================================================
 
+
+
 #==================================================
 # 6/7. PLANET PARAMETERS
 # For each planet, uses probability functions to 
 # determine masses and radii. From there can
 # compute density
 #==================================================
+
+
 
 #==================================================
 # 6/7. ORBIT PARAMETERS
@@ -47,6 +66,8 @@
 # (eccentricity, semi-major axis/period, 
 # inclination)
 #==================================================
+
+
 
 #==================================================
 # 9. STABILITY TEST
