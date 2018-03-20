@@ -49,19 +49,21 @@ count_p = 0
 # the star's properties (radius, temp, MS lifetime,
 # stellar type, etc)
 #==================================================
-fstar1 = open('Stars.dat','w')
+fstar1 = open('Stars.dat','w')			# Opens file for the data on the stars from the given stellar populations
 fstar1.write('ID\t' + 'Mass\t' + '[Fe/H]\t' + 'Radius\t' + 'Type\t' + 'Teff\t' + 'Tms\t' + 'Nplan\t' + '\n')
-fplan = open('Planets.dat','w')
+fplan = open('Planets.dat','w')			# Opens file for the data on the exoplanets
 fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t' + '\n')
 
 N_p_star = loadtxt("Nplan_per_star.dat", comments="#", delimiter="\t",unpack=False)	# Data from Dressing & Charbonneau 2013
 cum_freq = N_p_star[-1,-1]
 type_dat = loadtxt("Type.dat", comments="#", dtype='S4', delimiter="\t",unpack=False)
 
+plan = Seed_Plan.plan
+star = Seed.star
+
 with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for a stellar population
 	for line in f1:
 		Input = map(float,line.split())
-		star = Seed.star
 		count_s +=  1
 		star.ID = count_s
 		star.mass = Input[0]
@@ -73,6 +75,18 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 		for i in range(len(planet_count)):
 			if N_p_star[i,2] < RaNdOm <= N_p_star[i+1,2]:	
 				star.Nplan = N_p_star[i+1,0]	
+				n = 0
+				while n in range(int(star.Nplan)):
+					plan.ID = str(star.ID) + alphabet[n]
+					plan.mass = randint(1,20)*1.0/randint(1,19)
+					plan.radius = plan.mass*3.0*random()
+					plan.ecc = random()
+					plan.sm_axis = random()+0.1
+					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
+					plan.incl = 180*(random()-0.5)
+					n += 1
+					fplan.write(plan.description() + '\n')
+					count_p += 1
 				if (i+1) == int(star.Nplan):
 					planet_count[i] += 1
 			if type_dat[i,1] < str(star.mass) <= type_dat[i,2]:
@@ -81,6 +95,7 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 		fstar1.write(star.description() + '\n')
 print "Stellar type count =",type_count 	# Redundant atm as they're all sun clones
 print "Planet count =",planet_count
+print "count_p =",count_p
 fstar1.close()
 fplan.close()
 #==================================================
