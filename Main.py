@@ -56,12 +56,7 @@ fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t'
 
 N_p_star = loadtxt("Nplan_per_star.dat", comments="#", delimiter="\t",unpack=False)	# Data from Dressing & Charbonneau 2013
 cum_freq = N_p_star[-1,-1]
-#type_dat = loadtxt("Type.dat", comments="#", delimiter="\t",unpack=False)
-f3 = open('Type.dat','r')		# Type categorised by masses
-type_line = f3.readlines()
-upper = [type_line[1].split()[-1],type_line[2].split()[-1],type_line[3].split()[-1],type_line[4].split()[-1],type_line[5].split()[-1]]
-lower = [type_line[1].split()[-2],type_line[2].split()[-2],type_line[3].split()[-2],type_line[4].split()[-2],type_line[5].split()[-2]]
-
+type_dat = loadtxt("Type.dat", comments="#", dtype='S4', delimiter="\t",unpack=False)
 
 with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for a stellar population
 	for line in f1:
@@ -80,14 +75,14 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 				star.Nplan = N_p_star[i+1,0]	
 				if (i+1) == int(star.Nplan):
 					planet_count[i] += 1
-			if lower[i] < str(star.mass) <= upper[i]:
-				star.type = type_line[i+1].split()[0]
+			if type_dat[i,1] < str(star.mass) <= type_dat[i,2]:
+				star.type = type_dat[i,0]
 				type_count[i] += 1 
 		fstar1.write(star.description() + '\n')
 print "Stellar type count =",type_count 	# Redundant atm as they're all sun clones
 print "Planet count =",planet_count
-f1.close()
 fstar1.close()
+fplan.close()
 #==================================================
 
 
