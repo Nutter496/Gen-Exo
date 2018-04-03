@@ -52,7 +52,7 @@ count_p = 0
 fstar1 = open('Stars.dat','w')			# Opens file for the data on the stars from the given stellar populations
 fstar1.write('ID\t' + 'Mass\t' + '[Fe/H]\t' + 'Radius\t' + 'Type\t' + 'Teff\t' + 'Tms\t' + 'Nplan\t' + '\n')
 fplan = open('Planets.dat','w')			# Opens file for the data on the exoplanets
-fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t' + '\n')
+fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t' + '\n') # Worth putting in Seed.py & Seed_Plan.py?
 
 N_p_star = loadtxt("Nplan_per_star.dat", comments="#", delimiter="\t",unpack=False)	# Data from Dressing & Charbonneau 2013
 cum_freq = N_p_star[-1,-1]
@@ -78,12 +78,12 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 				n = 0
 				while n in range(int(star.Nplan)):
 					plan.ID = str(star.ID) + alphabet[n]
-					plan.mass = randint(1,20)*1.0/randint(1,19)
-					plan.radius = plan.mass*3.0*random()
-					plan.ecc = random()
-					plan.sm_axis = random()+0.1
+					plan.mass = randint(1,20)*1.0/randint(1,19) # Trying to find good data on mass distributions
+					plan.radius = plan.mass*3.0*random() # Plan to use Chen & Kipping 2016 forecaster code
+					plan.ecc = random()	# Trying to find good research on limits/distributions
+					plan.sm_axis = random()+0.1	# 
 					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
-					plan.incl = 180*(random()-0.5)
+					plan.incl = 180*(random()-0.5)	# Plan to leave this, could make it more gaussian/normal dist
 					n += 1
 					fplan.write(plan.description() + '\n')
 					count_p += 1
@@ -100,7 +100,7 @@ fstar1.close()
 fplan.close()
 #==================================================
 
-
+# Below is mostly redundant now
 
 #==================================================
 # 5. PLANET MULTIPLICITY
@@ -126,34 +126,6 @@ fplan.close()
 # Ra = Radius of planet 'a'
 # Da = Density of planet 'a'
 #==================================================
-#fstar2 = open('Stars.dat','r').readlines()
-#star_ID = []
-#star_mass = []
-#star_Nplan = []
-#plan_ID = []
-#plan = Seed_Plan.plan
-#for i in range(len(fstar2)-1):
-#	star_ID.append(fstar2[i+1].split()[0])
-#	star_mass.append(fstar2[i+1].split()[1])
-#	star_Nplan.append(fstar2[i+1].split()[-1])
-#star_ID = np.array(star_ID)
-#star_mass = map(float, np.array(star_mass)[:])
-#star_Nplan = np.array(star_Nplan)
-#for i in range(len(fstar2)-1):
-#	n = 0
-#	while n in range(int(star_Nplan[i])):
-#		plan.ID = str(star_ID[i]) + alphabet[n]
-#		plan.mass = randint(1,20)*1.0/randint(1,19)
-#		plan.radius = plan.mass*3.0*random()
-#		plan.ecc = random()
-#		plan.sm_axis = random()+0.1
-#		plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star_mass[i]))**0.5)/(Day)
-#		plan.incl = 180*(random()-0.5)
-#		n += 1
-#		fplan.write(plan.description() + '\n')
-#		count_p += 1
-#print count_p
-#fplan.close()
 #==================================================
 
 
