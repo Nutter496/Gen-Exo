@@ -5,7 +5,7 @@
 from random import *
 import numpy as np
 from numpy import loadtxt
-import Seed				# Calls an object creating module for stars
+import Seed_Star			# Calls an object creating module for stars
 import Seed_Plan			# calls an object creating module for planets
 #==================================================
 
@@ -38,7 +38,6 @@ count_p = 0
 # Generates apopulation of stars. Initally all suns
 # 3.1 add options for more than 1 star?
 #==================================================
-#Currently the Stellar_Popl.dat file has 100 solar clones
 #==================================================
 
 
@@ -57,9 +56,10 @@ fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t'
 N_p_star = loadtxt("Nplan_per_star.dat", comments="#", delimiter="\t",unpack=False)	# Data from Dressing & Charbonneau 2013
 cum_freq = N_p_star[-1,-1]
 type_dat = loadtxt("Type.dat", comments="#", dtype='S4', delimiter="\t",unpack=False)
+MR_rel_dat = loadtxt("MR_Relation.dat", comments="#", delimiter="\t", unpack=False)
 
 plan = Seed_Plan.plan
-star = Seed.star
+star = Seed_Star.star
 
 with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for a stellar population
 	for line in f1:
@@ -78,14 +78,18 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 				n = 0
 				while n in range(int(star.Nplan)):
 					plan.ID = str(star.ID) + alphabet[n]
-					plan.mass = randint(1,20)*1.0/randint(1,19) # Trying to find good data on mass distributions
-					plan.radius = plan.mass*3.0*random() # Plan to use Chen & Kipping 2016 forecaster code
+					plan.mass = random()*2.5 # Trying to find good data on mass distributions
+					if MR_rel_dat[0,0] < plan.mass <= MR_rel_dat[1,0]:
+						plan.radius = plan.mass**MR_rel_dat[0,1]*2*MR_rel_dat[0,3]*random()+(1-MR_rel_dat[0,3])
+					elif MR_rel_dat[1,0] < plan.mass <= MR_rel_dat[2,0]:
+						plan.radius = plan.mass**MR_rel_dat[1,1]*2*MR_rel_dat[1,3]*random()+(1-MR_rel_dat[1,3])
 					plan.ecc = random()	# Trying to find good research on limits/distributions
 					plan.sm_axis = random()+0.1	# 
 					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
 					plan.incl = 180*(random()-0.5)	# Plan to leave this, could make it more gaussian/normal dist
 					n += 1
 					fplan.write(plan.description() + '\n')
+					print MR_rel_dat[1,3]
 					count_p += 1
 				if (i+1) == int(star.Nplan):
 					planet_count[i] += 1
