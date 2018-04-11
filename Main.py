@@ -16,7 +16,7 @@ import Seed_Plan			# calls an object creating module for planets
 # Declares/calls all the constants and states units
 #=================================================
 Msun = 1.98850000E+30			#[kg]
-# Rsun = 6.95700000E+08			#[m]
+Rsun = 6.95700000E+08			#[m]
 # Me   = 5.97240000E+24			#[kg]
 # Re   = 6.37100000E+06			#[m]
 Day  = 8.64000000E+04			#[s]
@@ -34,8 +34,7 @@ count_p = 0
 
 #==================================================
 # 3. STAR GENERATOR
-# Generates apopulation of stars. Initally all suns
-# 3.1 add options for more than 1 star?
+# Generates apopulation of stars.
 #==================================================
 #==================================================
 
@@ -68,7 +67,7 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 		star.ID = count_s
 		star.mass = Input[0]
 		star.metal = Input[1]
-		star.radius = Input[0]**(3.0/7)	# Relation due to p-p chain fusion
+		star.radius = star.mass**(3.0/7)	# Relation due to p-p chain fusion
 		star.temp = star.mass*5700	# Relation due to 0.43Ms < M* < 2Ms
 		star.Tms = 10*star.mass**(-3)	# Relation due to M* ~ Ms
 		RaNdOm = randint(1,int(cum_freq))
@@ -78,13 +77,17 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 				n = 0
 				while n in range(int(star.Nplan)):
 					plan.ID = str(star.ID) + alphabet[n]
-					plan.mass = 0.001+random()*2.5 # Trying to find good data on mass distributions
+					if star.type == 'K' or star.type == 'M':
+						plan.mass = 0.01+random()*2	# Small stars more liekly to have small planets
+					else:
+						plan.mass = 0.1+random()*3	# Large stars less likely to have small planets
 					if MR_rel_dat[0,0] < plan.mass <= MR_rel_dat[1,0]:
 						plan.radius = plan.mass**MR_rel_dat[0,1]*2*MR_rel_dat[0,3]*random()+(1-MR_rel_dat[0,3])
 					elif MR_rel_dat[1,0] < plan.mass <= MR_rel_dat[2,0]:
 						plan.radius = plan.mass**MR_rel_dat[1,1]*2*MR_rel_dat[1,3]*random()+(1-MR_rel_dat[1,3])
-					plan.ecc = np.exp(-4.6*random())	# Adapted from exoplanet.eu catalog
-					plan.sm_axis = random()+2*star.mass	# 
+					plan.ecc = np.exp(-4.519*random())	# Adapted from exoplanet.eu catalog
+					rand0 = random()
+					plan.sm_axis = 100*rand0**2*np.exp(-0.5*(5*rand0)**2)+2*star.radius*Rsun/AU 
 					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
 					plan.incl = 180*(random()-0.5)	# Plan to leave this, could make it more gaussian/normal dist
 					n += 1
@@ -96,7 +99,7 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 				star.type = type_dat[i,0]
 				type_count[i] += 1 
 		fstar1.write(star.description() + '\n')
-print "Stellar type count =",type_count 	# Redundant atm as they're all sun clones
+print "Stellar type count =",type_count
 print "Planet count =",planet_count
 print "count_p =",count_p
 fstar1.close()

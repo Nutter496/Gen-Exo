@@ -12,3 +12,10 @@ class Seed:
 		return desc_str
 
 star = Seed()
+
+#	star.mass = Input[0]		# Taken a sample from exoplant.eu catalog
+#	star.metal = Input[1]		# Taken a sample from exoplanet.eu catalog
+#	star.radius = Input[0]**(3.0/7)	# Relation due to p-p chain fusion
+#	star.temp = star.mass*5700	# Relation due to 0.43Ms < M* < 2Ms
+#	star.Tms = 10*star.mass**(-3)	# Relation due to M* ~ Ms
+
