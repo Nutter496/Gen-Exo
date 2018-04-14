@@ -65,40 +65,42 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 		Input = map(float,line.split())
 		count_s +=  1
 		star.ID = count_s
-		star.mass = Input[0]
-		star.metal = Input[1]
-		star.radius = star.mass**(3.0/7)	# Relation due to p-p chain fusion
-		star.temp = star.mass*5700	# Relation due to 0.43Ms < M* < 2Ms
-		star.Tms = 10*star.mass**(-3)	# Relation due to M* ~ Ms
-		RaNdOm = randint(1,int(cum_freq))
-		for i in range(len(planet_count)):
-			if N_p_star[i,2] < RaNdOm <= N_p_star[i+1,2]:	
-				star.Nplan = N_p_star[i+1,0]	
-				n = 0
-				while n in range(int(star.Nplan)):
-					plan.ID = str(star.ID) + alphabet[n]
-					if star.type == 'K' or star.type == 'M':
-						plan.mass = 0.01+random()*2	# Small stars more liekly to have small planets
-					else:
-						plan.mass = 0.1+random()*3	# Large stars less likely to have small planets
-					if MR_rel_dat[0,0] < plan.mass <= MR_rel_dat[1,0]:
-						plan.radius = plan.mass**MR_rel_dat[0,1]*2*MR_rel_dat[0,3]*random()+(1-MR_rel_dat[0,3])
-					elif MR_rel_dat[1,0] < plan.mass <= MR_rel_dat[2,0]:
-						plan.radius = plan.mass**MR_rel_dat[1,1]*2*MR_rel_dat[1,3]*random()+(1-MR_rel_dat[1,3])
-					plan.ecc = np.exp(-4.519*random())	# Adapted from exoplanet.eu catalog
-					rand0 = random()
-					plan.sm_axis = 100*rand0**2*np.exp(-0.5*(5*rand0)**2)+2*star.radius*Rsun/AU 
-					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
-					plan.incl = 180*(random()-0.5)	# Plan to leave this, could make it more gaussian/normal dist
-					n += 1
-					fplan.write(plan.description() + '\n')
-					count_p += 1
-				if (i+1) == int(star.Nplan):
-					planet_count[i] += 1
-			if type_dat[i,1] < str(star.mass) <= type_dat[i,2]:
-				star.type = type_dat[i,0]
-				type_count[i] += 1 
-		fstar1.write(star.description() + '\n')
+#		star.mass = Input[0]
+		star.starmass
+#		star.metal = Input[1]
+		print star.starmass
+#		star.radius = str(star.mass)**(3.0/7)	# Relation due to p-p chain fusion
+#		star.temp = star.mass*5700	# Relation due to 0.43Ms < M* < 2Ms
+#		star.Tms = 10*star.mass**(-3)	# Relation due to M* ~ Ms
+#		RaNdOm = randint(1,int(cum_freq))
+#		for i in range(len(planet_count)):
+#			if N_p_star[i,2] < RaNdOm <= N_p_star[i+1,2]:	
+#				star.Nplan = N_p_star[i+1,0]	
+#				n = 0
+#				while n in range(int(star.Nplan)):
+#					plan.ID = str(star.ID) + alphabet[n]
+#					if star.type == 'K' or star.type == 'M':
+#						plan.mass = 0.01+random()*2	# Small stars more liekly to have small planets
+#					else:
+#						plan.mass = 0.1+random()*3	# Large stars less likely to have small planets
+#					if MR_rel_dat[0,0] < plan.mass <= MR_rel_dat[1,0]:
+#						plan.radius = plan.mass**MR_rel_dat[0,1]*2*MR_rel_dat[0,3]*random()+(1-MR_rel_dat[0,3])
+#					elif MR_rel_dat[1,0] < plan.mass <= MR_rel_dat[2,0]:
+#						plan.radius = plan.mass**MR_rel_dat[1,1]*2*MR_rel_dat[1,3]*random()+(1-MR_rel_dat[1,3])
+#					plan.ecc = np.exp(-4.519*random())	# Adapted from exoplanet.eu catalog
+#					rand0 = random()
+#					plan.sm_axis = 100*rand0**2*np.exp(-0.5*(5*rand0)**2)+2*star.radius*Rsun/AU 
+#					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
+#					plan.incl = 180*(random()-0.5)	# Plan to leave this, could make it more gaussian/normal dist
+#					n += 1
+#					fplan.write(plan.description() + '\n')
+#					count_p += 1
+#				if (i+1) == int(star.Nplan):
+#					planet_count[i] += 1
+#			if type_dat[i,1] < str(star.mass) <= type_dat[i,2]:
+#				star.type = type_dat[i,0]
+#				type_count[i] += 1 
+#		fstar1.write(star.description() + '\n')
 print "Stellar type count =",type_count
 print "Planet count =",planet_count
 print "count_p =",count_p
