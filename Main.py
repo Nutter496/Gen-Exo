@@ -60,15 +60,16 @@ MR_rel_dat = loadtxt("MR_Relation.dat", comments="#", delimiter="\t", unpack=Fal
 plan = Seed_Plan.plan
 star = Seed_Star.star
 
-with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for a stellar population
-	for line in f1:
-		Input = map(float,line.split())
-		count_s +=  1
-		star.ID = count_s
+#with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for a stellar population
+for line in open('Stellar_Popl.dat'): #f1:
+#		Input = map(float,line.split())
+	count_s +=  1
+	star.ID = count_s
 #		star.mass = Input[0]
-		star.starmass
-#		star.metal = Input[1]
-		print star.starmass
+#		star.starmass
+	star.mass
+	star.metal
+	print star.mass, star.metal
 #		star.radius = str(star.mass)**(3.0/7)	# Relation due to p-p chain fusion
 #		star.temp = star.mass*5700	# Relation due to 0.43Ms < M* < 2Ms
 #		star.Tms = 10*star.mass**(-3)	# Relation due to M* ~ Ms
@@ -100,7 +101,7 @@ with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for 
 #			if type_dat[i,1] < str(star.mass) <= type_dat[i,2]:
 #				star.type = type_dat[i,0]
 #				type_count[i] += 1 
-#		fstar1.write(star.description() + '\n')
+	fstar1.write(star.description() + '\n')
 print "Stellar type count =",type_count
 print "Planet count =",planet_count
 print "count_p =",count_p
