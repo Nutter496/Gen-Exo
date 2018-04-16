@@ -23,7 +23,6 @@ Day  = 8.64000000E+04			#[s]
 AU   = 1.49597871E+11			#[m]
 G    = 6.67408000E-11			#[m^3 kg^-1 s^-2]
 pi   = np.pi
-type_count = [0,0,0,0,0]		# Number of spectral type [A,F,G,K,M]
 planet_count = [0,0,0,0,0]		# Number of planets orbiting each star [1,2,3,4,5]
 alphabet = ['a','b','c','d','e']	# Used for planet IDs
 count_s = 0
@@ -51,60 +50,41 @@ fstar1.write('ID\t' + 'Mass\t' + '[Fe/H]\t' + 'Radius\t' + 'Type\t' + 'Teff\t' +
 fplan = open('Planets.dat','w')			# Opens file for the data on the exoplanets
 fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t' + '\n') # Worth putting in Seed.py & Seed_Plan.py?
 
-N_p_star = loadtxt("Nplan_per_star.dat", comments="#", delimiter="\t",unpack=False)	# Data from Dressing & Charbonneau 2013
-cum_freq = N_p_star[-1,-1]
-type_dat = loadtxt("Type.dat", comments="#", dtype='S4', delimiter="\t",unpack=False)
-MR_rel_dat = loadtxt("MR_Relation.dat", comments="#", delimiter="\t", unpack=False)
-
-
 plan = Seed_Plan.plan
 star = Seed_Star.star
 
-#with open('Stellar_Popl.dat') as f1:		# Data file with mass and metallicity for a stellar population
 for line in open('Stellar_Popl.dat'): #f1:
-#		Input = map(float,line.split())
+	star_mass = star.get_mass(count_s)
+	star_metal = star.get_metal(count_s)
+	star_radius = star.get_radius(count_s)
+	star_temp = star.get_temp(count_s)
+	star_Tms = star.get_Tms(count_s)
+	star_type = star.get_type(count_s)
 	count_s +=  1
-	star.ID = count_s
-#		star.mass = Input[0]
-#		star.starmass
-	star.mass
-	star.metal
-	print star.mass, star.metal
-#		star.radius = str(star.mass)**(3.0/7)	# Relation due to p-p chain fusion
-#		star.temp = star.mass*5700	# Relation due to 0.43Ms < M* < 2Ms
-#		star.Tms = 10*star.mass**(-3)	# Relation due to M* ~ Ms
-#		RaNdOm = randint(1,int(cum_freq))
-#		for i in range(len(planet_count)):
-#			if N_p_star[i,2] < RaNdOm <= N_p_star[i+1,2]:	
-#				star.Nplan = N_p_star[i+1,0]	
-#				n = 0
-#				while n in range(int(star.Nplan)):
-#					plan.ID = str(star.ID) + alphabet[n]
-#					if star.type == 'K' or star.type == 'M':
-#						plan.mass = 0.01+random()*2	# Small stars more liekly to have small planets
-#					else:
-#						plan.mass = 0.1+random()*3	# Large stars less likely to have small planets
-#					if MR_rel_dat[0,0] < plan.mass <= MR_rel_dat[1,0]:
-#						plan.radius = plan.mass**MR_rel_dat[0,1]*2*MR_rel_dat[0,3]*random()+(1-MR_rel_dat[0,3])
-#					elif MR_rel_dat[1,0] < plan.mass <= MR_rel_dat[2,0]:
-#						plan.radius = plan.mass**MR_rel_dat[1,1]*2*MR_rel_dat[1,3]*random()+(1-MR_rel_dat[1,3])
-#					plan.ecc = np.exp(-4.519*random())	# Adapted from exoplanet.eu catalog
-#					rand0 = random()
-#					plan.sm_axis = 100*rand0**2*np.exp(-0.5*(5*rand0)**2)+2*star.radius*Rsun/AU 
-#					plan.t_orb = ((4*pi*(AU*plan.sm_axis)**3/(G*Msun*star.mass))**0.5)/(Day)
-#					plan.incl = 180*(random()-0.5)	# Plan to leave this, could make it more gaussian/normal dist
-#					n += 1
-#					fplan.write(plan.description() + '\n')
-#					count_p += 1
-#				if (i+1) == int(star.Nplan):
-#					planet_count[i] += 1
-#			if type_dat[i,1] < str(star.mass) <= type_dat[i,2]:
-#				star.type = type_dat[i,0]
-#				type_count[i] += 1 
-	fstar1.write(star.description() + '\n')
-print "Stellar type count =",type_count
-print "Planet count =",planet_count
-print "count_p =",count_p
+	star_ID = count_s
+	star_Nplan = star.get_Nplan()
+	k = 0
+	while k in range(int(star_Nplan)):
+		plan_ID = str(star_ID) + alphabet[k]
+		plan_mass = plan.get_mass(star_type)
+		plan_radius = plan.get_radius(plan_mass)
+		plan_ecc = plan.get_ecc()
+		plan_sm_axis = plan.get_sm_axis(plan_radius) 
+		plan_t_orb = plan.get_t_orb(plan_sm_axis,star_mass)
+		plan_incl = plan.get_incl()
+		count_p += 1
+		if (k+1) == int(star_Nplan):
+			planet_count[k] += 1
+		k += 1
+
+		print plan_ID,plan_mass,plan_radius,plan_ecc,plan_sm_axis,plan_t_orb,plan_incl
+
+#		fplan.write(plan.description() + '\n')
+#	fstar1.write(star.description() + '\n')
+print "Number of stars =",count_s
+print "Stellar type count =",star.get_type_count()
+print "Number of planets =",count_p
+print "Planetary system type count =",planet_count
 fstar1.close()
 fplan.close()
 #==================================================
