@@ -6,9 +6,11 @@ Star_Popl_dat = loadtxt("Stellar_Popl.dat", comments="#", delimiter="\t", unpack
 N_p_star = loadtxt("Nplan_per_star.dat", comments="#", delimiter="\t",unpack=False)	# Data from Dressing & Charbonneau 2013
 cum_freq = N_p_star[-1,-1]
 type_dat = loadtxt("Type.dat", comments="#", dtype='S4', delimiter="\t",unpack=False)	#########################################
-
+fstar = open('Stars.dat','w')
 
 class Seed:
+	def open_dat_file(self):
+		fstar.write('ID\t' + 'Mass\t' + '[Fe/H]\t' + 'Radius\t' + 'Type\t' + 'Teff\t' + 'Tms\t' + 'Nplan\t' + '\n')
 	ID = 0						# Identification number 
 	def get_mass(self,i):				# Measured in solar masses
 		return Star_Popl_dat[i,0]
@@ -32,9 +34,13 @@ class Seed:
 				return N_p_star[m+1,0]	
 	def get_type_count(self):
 		return type_count
-	def description(self):
-#		desc_str = "%d\t%4.2f\t%4.2f\t%4.2f\t%s\t%d\t%5.3f\t%.1s" % (self.ID, self.get_mass, self.get_metal, self.radius, self.type, self.temp, self.Tms, self.Nplan)
-		desc_str = "%d\t%4.2f\t%4.2f" % (self.ID, self.get_mass, self.get_metal)
+	def description(self,ID,mas,met,rad,typ,tem,Tms,Npl):
+		desc_str = "%d\t%4.2f\t%4.2f\t%4.2f\t%s\t%d\t%5.3f\t%.1s" % (ID,mas,met,rad,typ,tem,Tms,Npl)
 		return desc_str
+	def write(self,ID,mas,met,rad,typ,tem,Tms,Npl):
+		fstar.write(star.description(ID,mas,met,rad,typ,tem,Tms,Npl) + '\n')
+	def close(self):
+		fstar.close()
+
 star = Seed()
 
