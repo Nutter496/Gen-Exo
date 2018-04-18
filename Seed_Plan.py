@@ -29,13 +29,14 @@ class Seed_Plan:
 		return np.exp(-4.519*random())				# Adapted from exoplanet.eu catalog
 	def get_sm_axis(self,radius):					# Semi-major axis of orbit measured in AU
 		rand0 = random()
-		return 100*rand0**2*np.exp(-0.5*(5*rand0)**2)+2*radius*Rsun/AU 
+		sma = 100*rand0**2*np.exp(-0.5*(5*rand0)**2)+2*radius*Rsun/AU
+		return sma 
 	def get_t_orb(self,a,star_mass):				# Orbital period measured in days
 		return ((4*pi*(AU*a)**3/(G*Msun*star_mass))**0.5)/(Day)
 	def get_incl(self):						# Orbital inclination as seen from Earth
-		return 180*(random()-0.5)				# Plan to leave this, could make it more gaussian/normal dist
+		return 180*(random()-0.5)
 	def description(self,ID,mas,rad,ecc,sma,torb,inc):
-		desc_str = "%s\t%4.2f\t%4.2f\t%4.3f\t%4.3f\t%4.2f\t%4.2f" % (ID,mas,rad,ecc,sma,torb,inc)
+		desc_str = "%s\t%4.2f\t%4.2f\t%4.3f\t%4.3f\t%4.2f\t%4.2f\t" % (ID,mas,rad,ecc,sma,torb,inc)
 		return desc_str
 	def write(self,ID,mas,rad,ecc,sma,torb,inc):
 		fplan.write(plan.description(ID,mas,rad,ecc,sma,torb,inc) + '\n')
