@@ -11,6 +11,7 @@ fstar = open('Stars.dat','w')
 class Seed:
 	def open_dat_file(self):
 		fstar.write('ID\t' + 'Mass\t' + '[Fe/H]\t' + 'Radius\t' + 'Type\t' + 'Teff\t' + 'Tms\t' + 'Nplan\t' + '\n')
+		fstar.write('0\t' + '1.0\t' + '1.0\t' + '1.0\t' + 'G\t' + '5700\t' + '10\t' + '5\t' + '\n')
 	ID = 0						# Identification number 
 	def get_mass(self,i):				# Measured in solar masses
 		return Star_Popl_dat[i,0]

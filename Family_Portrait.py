@@ -48,12 +48,13 @@ n7 = star[6,-1]
 n8 = star[7,-1]
 n9 = star[8,-1]
 n10 = star[9,-1]
-ncum = [int(n1+n2+n3),int(n1+n2+n3+n4+n5),int(n1+n2+n3+n4+n5+n6+n7+n8+n9+n10)]
+n11 = star[10,-1]
+ncum = int(n1+n2+n3+n4+n5+n6+n7+n8+n9+n10+n11)
 
-x.extend(plan[0:ncum[2],3])
-e.extend(plan[0:ncum[2],2]*plan[0:ncum[2],3])
-s.extend(plan[0:ncum[2],1])
-for i in range(10):
+x.extend(plan[0:ncum,3])
+e.extend(plan[0:ncum,2]*plan[0:ncum,3])
+s.extend(plan[0:ncum,1])
+for i in range(11):
 	for j in range(int(star[i,-1])):
 		y.extend([star[i,0]])
 
@@ -133,8 +134,15 @@ while input != "x":
 		plt.show()
 	if num == "13":
 		plt.figure(13)
-		for i in range(0,ncum[2]):
+		def text(x, y, text):
+		    plt.text(x,y,text,ha='center',va='top')
+		for i in range(0,ncum):
 			plt.errorbar(x[i],y[i],xerr=e[i],fmt='o',ms=6*s[i],mew=1)
-		plt.title('Family Portrait of systems 1-10')
+		plt.title('Family Portrait of systems 1-10 \n with the inner Solar System below for comparison')
+		text(0.387,0.5,"M")
+		text(0.723,0.5,"V")
+		text(1.0,0.5,"E")
+		text(1.52,0.5,"M")
+		text(5.2,0.5,"J")
 		plt.show()
 print "Finished"

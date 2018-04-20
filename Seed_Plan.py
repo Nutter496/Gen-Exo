@@ -13,7 +13,12 @@ fplan = open('Planets.dat','w')			# Opens file for the data on the exoplanets
 
 class Seed_Plan:
 	def open_dat_file(self):
-		fplan.write('ID\t' + 'Mass\t' + 'Radius\t' + 'e\t' + 'a\t' + 'Torb\t' + 'Incl\t' + '\n') 
+		fplan.write('ID\t'+'Mass\t'+'Radius\t'+'e\t'+'a\t'+'Torb\t'+'Incl\t'+'\n') 
+		fplan.write('Mer\t'+'0.0553\t'+'0.383\t'+'0.205\t'+'0.387\t'+'88.0\t'+'7.0\t'+'\n')
+		fplan.write('Ven\t'+'0.815\t'+'0.949\t'+'0.007\t'+'0.723\t'+'224.7\t'+'3.4\t'+'\n')
+		fplan.write('Ear\t' + '1.0\t' + '1.0\t' + '0.017\t' + '1.0\t' + '365.2\t' + '0.0\t' + '\n')
+		fplan.write('Mar\t'+'0.107\t'+'0.2724\t'+'0.094\t'+'1.52\t'+'687.0\t'+'1.9\t'+'\n')
+		fplan.write('Jup\t'+'317.8\t'+'11.21\t'+'0.049\t'+'5.2\t'+'4331\t'+'1.3\t'+'\n')
 	ID = 0								# Identification number 
 	def get_mass(self,star_type):
 		if star_type == 'K' or star_type == 'M':
@@ -22,9 +27,9 @@ class Seed_Plan:
 			return 0.1+random()*3				# Large stars less likely to have small planets
 	def get_radius(self,mass):					# Measured in Earth radii
 		if MR_rel_dat[0,0] < mass <= MR_rel_dat[1,0]:
-			return mass**MR_rel_dat[0,1]*2*MR_rel_dat[0,3]*random()+(1-MR_rel_dat[0,3])
+			return mass**MR_rel_dat[0,1]*(1+2*MR_rel_dat[0,3]*(0.5-random()))+MR_rel_dat[0,2]
 		elif MR_rel_dat[1,0] < mass <= MR_rel_dat[2,0]:
-			return mass**MR_rel_dat[1,1]*2*MR_rel_dat[1,3]*random()+(1-MR_rel_dat[1,3])
+			return mass**MR_rel_dat[1,1]*(1+2*MR_rel_dat[1,3]*(0.5-random()))+MR_rel_dat[1,2]
 	def get_ecc(self):						# Orbital eccentricity
 		return np.exp(-4.519*random())				# Adapted from exoplanet.eu catalog
 	def get_sm_axis(self,radius):					# Semi-major axis of orbit measured in AU
