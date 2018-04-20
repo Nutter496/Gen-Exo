@@ -61,6 +61,10 @@ print "Number of planets =",count_p
 print "Planetary system type count =",planet_count
 star.close()
 plan.close()
+
+plot = raw_input("Plot? (y/n) \n")
+if plot == "y":
+	exec(open("Family_Portrait.py").read())
 #==================================================
 
 
