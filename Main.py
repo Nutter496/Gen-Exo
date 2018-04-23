@@ -45,7 +45,7 @@ for line in open('Stellar_Popl.dat'):
 		p_mass = plan.get_mass(s_type)
 		p_radius = plan.get_radius(p_mass)
 		p_ecc = plan.get_ecc()
-		p_sm_axis = plan.get_sm_axis(p_radius) 
+		p_sm_axis = plan.get_sm_axis(s_radius) 
 		p_t_orb = plan.get_t_orb(p_sm_axis,s_mass)
 		p_incl = plan.get_incl()
 		count_p += 1
